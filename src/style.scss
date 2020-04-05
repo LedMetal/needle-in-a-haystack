@@ -1,0 +1,78 @@
+@import '~bootstrap/scss/bootstrap';
+@import './variables';
+@import './mixins';
+
+body {
+  background-color: $bg-color;
+  font-size: $font-size;
+  text-align: center;
+}
+
+.intro-phase {
+  margin-top: 10rem;
+
+  .intro-header {
+    margin: 1rem 0;
+  }
+
+  .intro-instructions {
+    line-height: 2;
+    margin: 2rem auto;
+    width: 35.9375rem;
+  }
+
+  .intro-navigation {
+    margin: 1rem 0;
+
+    .btn-start {
+      @include button-style;
+    }
+  }
+}
+
+.test-phase {
+  padding: 0 2rem;
+
+  .test-phase-header {
+    margin: 5rem 0 1rem;
+  }
+
+  .target-icon {
+    font-size: 1.875rem;
+  }
+
+  .icons-table {
+    margin: 2rem auto;
+
+    tr {
+      td {
+        border: .0625rem solid transparent;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+        padding: .9375rem;
+        transition: border-color .125s ease-in-out, background-color .125s ease-in-out, transform .125s ease-in-out;
+
+        &:hover {
+          border: .0625rem dashed $border-hover;
+          transform: scale(1.5);
+        }
+      }
+    }
+  }
+
+  .btn-next {
+    @include button-style;
+  }
+}
+
+.test-phase,
+.result-phase {
+  display: none;
+  visibility: hidden;
+}
+
+h1,
+h4 {
+  margin: 0;
+}

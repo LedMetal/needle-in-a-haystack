@@ -1,0 +1,14 @@
+{
+  "browser": true,
+  "curly": true,
+  "devel": true,
+  "esversion": 9,
+  "forin": true,
+  "freeze": true,
+  "jquery": true,
+  "leanswitch": true,
+  "nonew": true,
+  "undef": true,
+  "unused": "strict",
+  "varstmt": true
+}
