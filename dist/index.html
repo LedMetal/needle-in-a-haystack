@@ -10,39 +10,45 @@
 
 <body>
   <div class='intro-phase'>
-    <div class='intro-header'>
-      <h1>Needle in a Haystack</h1>
-    </div>
-
-    <div class='intro-instructions'>
-      In this exercise, you will be given a target icon at the top of the screen. Your task is to click on all the target icons in the grid.
-    </div>
-
-    <div class='intro-navigation'>
-      <button class='btn btn-start'>Start The Test!</button>
+    <div class="jumbotron">
+      <div class='intro-header'>
+        <h1 class="display-4">Needle in a Haystack</h1>
+      </div>
+  
+      <div class='intro-instructions lead'>
+        In this exercise, you will be given a target icon at the top of the screen. Your task is to click on all the target icons in the grid.
+      </div>
+  
+      <div class='intro-navigation'>
+        <button class='btn btn-example'>Try An Example!</button>
+        <button class='btn btn-start'>Start!</button>
+      </div>
     </div>
   </div>
 
   <div class='test-phase'>
-    <div class='test-phase-header'>
-      <h4>Target Icon:</h4>
-    </div>
-
-    <div class='target-icon'></div>
-
-    <table class='table icons-table'></table>
-
-    <div class="row d-none">
-      <div class="col">
-        Total number of clicked: <span class="numberClicked">0</span>
+    <div class="jumbotron">
+      <div class='test-phase-header'>
+        <h4>Target Icon:</h4>
+      </div>
+  
+      <div class='target-icon'></div>
+  
+      <table class='table icons-table'></table>
+  
+      <div class="row number-clicked">
+        <div class="col">
+          Total number of clicked: <span class="numberClicked">0</span>
+        </div>
+      </div>
+  
+      <div class="row test-navigation">
+        <div class="col">
+          <button class="btn btn-example-done">Done Example</button>
+          <button class="btn btn-next">Next Page</button>
+        </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col">
-        <button class="btn btn-next">Next Page</button>
-      </div>
-    </div>    
   </div>
 
   <div class='result-phase'></div>

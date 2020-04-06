@@ -1,6 +1,10 @@
-const introPhase = document.querySelector('.intro-phase');
-const testPhase = document.querySelector('.test-phase');
-const resultPhase = document.querySelector('.result-phase');
-const btnStart = document.querySelector('.btn-start');
+export const introPhase = document.querySelector('.intro-phase');
+export const testPhase = document.querySelector('.test-phase');
+export const resultPhase = document.querySelector('.result-phase');
 
-export {introPhase,testPhase, resultPhase, btnStart};
+export const btnExample = document.querySelector('.btn-example');
+export const btnStart = document.querySelector('.btn-start');
+export const btnExampleDone = document.querySelector('.btn-example-done');
+
+export const introHeader = document.querySelector('.intro-header h1');
+export const introInstructions = document.querySelector('.intro-instructions');
