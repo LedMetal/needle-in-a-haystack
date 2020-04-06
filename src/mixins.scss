@@ -15,3 +15,10 @@
     color: $button-color;
   }
 }
+
+@mixin jumbotron {
+  border: .0625rem solid $jumbotron-border;
+  box-shadow: -.3125rem .3125rem .3125rem $jumbotron-box-shadow;
+  margin: auto;
+  width: 43.75rem;
+}

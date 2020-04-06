@@ -1,19 +1,13 @@
-export default class BlockOne {
+export default class BlockOneExample {
   constructor() {
-    this.targetIcon = '⏰';
-    this.disSimilars = ['\u{1F955}', '🐶', '🔑', '💰', '📺'];
-    this.visuallySimilars = ['\u{1F9ED}', '🚫', '⭕', '💿', '🎯'];
-    this.semanticallySimilars = ['⏳', '⌚', '⏱', '⏲', '🕰'];
+    this.targetIcon = '🎪';
+    this.nonTargetIcons = ['💀', '👻', '🙉', '💘', '💥', '💣', '🖖', '💂', '💻', '💑', '👣', '🐎', '🌻', '🌎', '🗽'];
     this.grid = [];
     this.gridHTML = '';
-    this.currentPage = 0;
-    this.score = {};
     this.iconCount = {
       total: 40,
       target: 8,
-      disSimilar: 16,
-      visuallySimilar: 8,
-      semanticallySimilar: 8
+      nonTarget: 32
     };
 
     this.init();
@@ -32,16 +26,8 @@ export default class BlockOne {
       this.grid.push(this.targetIcon);
     }
 
-    for (let i = 0; i < this.iconCount.disSimilar; i++) {
-      this.grid.push(this.disSimilars[Math.floor(Math.random() * this.disSimilars.length)]);
-    }
-
-    for (let i = 0; i < this.iconCount.visuallySimilar; i++) {
-      this.grid.push(this.visuallySimilars[Math.floor(Math.random() * this.visuallySimilars.length)]);
-    }
-
-    for (let i = 0; i < this.iconCount.semanticallySimilar; i++) {
-      this.grid.push(this.semanticallySimilars[Math.floor(Math.random() * this.semanticallySimilars.length)]);
+    for (let i = 0; i < this.iconCount.nonTarget; i++) {
+      this.grid.push(this.nonTargetIcons[Math.floor(Math.random() * this.nonTargetIcons.length)]);
     }
   }
 
@@ -75,19 +61,11 @@ export default class BlockOne {
     this.gridHTML += '</tbody>';
   }
 
-  beginEvaluation() {
+  beginExample() {
     const targetIcon = document.querySelector('.target-icon');
     const iconsTable = document.querySelector('.icons-table');
 
     targetIcon.innerHTML = this.targetIcon;
     iconsTable.innerHTML = this.gridHTML;
-
-    this.currentPage++;
-    
-    this.score[`page${this.currentPage}`] = {
-      timestamps: {
-        start: new Date()
-      }
-    };
   }
 }

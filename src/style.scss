@@ -9,60 +9,82 @@ body {
 }
 
 .intro-phase {
-  margin-top: 10rem;
+  margin-top: 2rem;
 
-  .intro-header {
-    margin: 1rem 0;
-  }
+  .jumbotron {
+    @include jumbotron;
 
-  .intro-instructions {
-    line-height: 2;
-    margin: 2rem auto;
-    width: 35.9375rem;
-  }
+    .intro-header {
+      margin: 1rem 0;
+    }
 
-  .intro-navigation {
-    margin: 1rem 0;
+    .intro-instructions {
+      font-size: 1.125rem;
+      line-height: 1.5;
+      margin: 2rem auto;
+      text-align: left;
+      width: 35.9375rem;
+    }
 
-    .btn-start {
-      @include button-style;
+    .intro-navigation {
+      margin: 1rem 0;
+
+      .btn-start {
+        display: none;
+        margin: auto;
+      }
     }
   }
 }
 
 .test-phase {
+  margin-top: 2rem;
   padding: 0 2rem;
 
-  .test-phase-header {
-    margin: 5rem 0 1rem;
-  }
+  .jumbotron {
+    @include jumbotron;
 
-  .target-icon {
-    font-size: 1.875rem;
-  }
+    .target-icon {
+      font-size: 1.875rem;
+    }
 
-  .icons-table {
-    margin: 2rem auto;
+    .icons-table {
+      margin: 2rem auto;
 
-    tr {
-      td {
-        border: .0625rem solid transparent;
-        border-radius: 50%;
-        cursor: pointer;
-        display: inline-block;
-        padding: .9375rem;
-        transition: border-color .125s ease-in-out, background-color .125s ease-in-out, transform .125s ease-in-out;
+      tr {
+        .icons {
+          background-color: transparent;
+          border: .0625rem solid transparent;
+          border-radius: 50%;
+          cursor: pointer;
+          display: inline-block;
+          max-width: 3.5625rem;
+          padding: .9375rem;
+          transition: border-color .125s ease-in-out, background-color .125s ease-in-out, transform .125s ease-in-out;
+          width: 100%;
 
-        &:hover {
-          border: .0625rem dashed $border-hover;
-          transform: scale(1.5);
+          &:hover {
+            border: .0625rem dashed $icon-border-hover;
+            transform: scale(1.5);
+            z-index: 1;
+          }
+        }
+
+        .selected {
+          background-color: $icon-selected-background;
         }
       }
     }
-  }
 
-  .btn-next {
-    @include button-style;
+    .number-clicked {
+      display: none;
+    }
+
+    .test-navigation {
+      .btn-next {
+        display: none;
+      }
+    }
   }
 }
 
@@ -75,4 +97,8 @@ body {
 h1,
 h4 {
   margin: 0;
+}
+
+.btn {
+  @include button-style;
 }
