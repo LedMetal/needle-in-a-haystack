@@ -6,18 +6,17 @@ import BlockOneExample from './BlockOneExample';
 export const blockOne = new BlockOne();
 export const blockOneExample = new BlockOneExample();
 
-/* ---------- EVENT LISTENERS ---------- */
+/* -------------------- EVENT LISTENERS -------------------- */
+
 /*
   "Try An Example!" button on Intro Phase
 
   Clicking this button takes user to a practice test round.
 */
-domElements.btnExample.addEventListener('click', function() {
-  globalFunctions.hideDiv(domElements.introPhase);
-  globalFunctions.showDiv(domElements.testPhase);
+domElements.btnExample.addEventListener('click', () => {
+  goToTestPhase();
 
   blockOneExample.beginExample();
-
   setIconsOnClickHandlers();
 });
 
@@ -26,11 +25,13 @@ domElements.btnExample.addEventListener('click', function() {
 
   Clicking this button starts the timer and begins Block One's evaluation.
 */
-domElements.btnStart.addEventListener('click', function() {
-  globalFunctions.hideDiv(domElements.introPhase);
-  globalFunctions.showDiv(domElements.testPhase);
+domElements.btnStart.addEventListener('click', () => {
+  goToTestPhase();
 
   blockOne.beginEvaluation();
+
+  setTimer();
+  setIconsOnClickHandlers();
 });
 
 /*
@@ -38,9 +39,8 @@ domElements.btnStart.addEventListener('click', function() {
 
   Clicking this button ends the Example evaluation and returns user to the intro phase
 */
-domElements.btnExampleDone.addEventListener('click', function() {
-  globalFunctions.hideDiv(domElements.testPhase);
-  globalFunctions.showDiv(domElements.introPhase);
+domElements.btnExampleDone.addEventListener('click', () => {
+  goToIntroPhase();
   
   globalFunctions.hideDiv(domElements.btnExample);
   globalFunctions.showDiv(domElements.btnStart);
@@ -55,6 +55,22 @@ domElements.btnExampleDone.addEventListener('click', function() {
     <br /><br />
     Try to pay attention to how you're approaching the task.
   `;
+});
+
+/*
+  "Next Page" button on Test Phase
+
+  Clicking this button:
+    - saves current page data (selections, timestamp, etc)
+    - creates a new grid for the next page
+*/
+domElements.btnNextPage.addEventListener('click', () => {
+  blockOne.endEvaluation();
+  blockOne.init();
+  blockOne.beginEvaluation();
+
+  // Reset onCLick Handlers for icons
+  setIconsOnClickHandlers();
 });
 
 /*
@@ -75,4 +91,31 @@ const setIconsOnClickHandlers = () => {
     });
   }
 };
-/* ------------------------------------- */
+
+/* --------------------------------------------------------- */
+
+const goToIntroPhase = () => {
+  globalFunctions.hideDiv(domElements.testPhase);
+  globalFunctions.showDiv(domElements.introPhase);
+};
+
+const goToTestPhase = () => {
+  globalFunctions.hideDiv(domElements.introPhase);
+  globalFunctions.showDiv(domElements.testPhase);
+};
+
+const goToResultsPhase = () => {
+  globalFunctions.hideDiv(domElements.testPhase);
+  globalFunctions.showDiv(domElements.resultPhase);
+};
+
+const setTimer = () => {
+  setTimeout(() => {
+    alert('Time\'s Up!');
+
+    blockOne.endEvaluation();
+    goToResultsPhase();
+
+    console.log(blockOne);
+  }, 3000);
+};

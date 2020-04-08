@@ -83,6 +83,10 @@ body {
     .test-navigation {
       .btn-next {
         display: none;
+
+        i {
+          vertical-align: text-bottom;
+        }
       }
     }
   }

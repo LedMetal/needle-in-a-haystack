@@ -8,6 +8,7 @@ export default class BlockOne {
     this.gridHTML = '';
     this.currentPage = 0;
     this.score = {};
+    this.resultsHTML = '';
     this.iconCount = {
       total: 40,
       target: 8,
@@ -23,6 +24,7 @@ export default class BlockOne {
     this.chooseIcons();
     this.shuffleGrid(this.grid);
     this.prepareGridHTML();
+    this.currentPage++;
   }
 
   chooseIcons() {
@@ -78,16 +80,37 @@ export default class BlockOne {
   beginEvaluation() {
     const targetIcon = document.querySelector('.target-icon');
     const iconsTable = document.querySelector('.icons-table');
+    const btnExampleDone = document.querySelector('.btn-example-done');
+    const btnNext = document.querySelector('.btn-next');
 
     targetIcon.innerHTML = this.targetIcon;
     iconsTable.innerHTML = this.gridHTML;
 
-    this.currentPage++;
+    btnExampleDone.style.setProperty('display', 'none');
+    btnNext.style.setProperty('display', 'inline-block');
     
     this.score[`page${this.currentPage}`] = {
       timestamps: {
         start: new Date()
       }
     };
+  }
+
+  endEvaluation() {
+    // Set end time for current page
+    this.score[`page${this.currentPage}`].timestamps.end = new Date();
+
+    // Set array of selected icons
+    this.score[`page${this.currentPage}`].selectedIcons = [];
+    const selectedIcons = document.getElementsByClassName('selected');
+    for (let i = 0; i < selectedIcons.length; i++) {
+      this.score[`page${this.currentPage}`].selectedIcons.push(selectedIcons[i].innerHTML);
+    }
+  }
+
+  prepareResultsHTML() {
+    let html = `
+      
+    `;
   }
 }
