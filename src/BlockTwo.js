@@ -1,11 +1,12 @@
 import $ from 'jquery';
 
-export default class BlockOne {
-  constructor() {
-    this.participantID = this.getParticipantID();
-    this.evaluationDate = this.setEvaluationDate();
+export default class BlockTwo {
+  constructor(participantID, evaluationDate) {
+    this.participantID = participantID;
+    this.evaluationDate = evaluationDate;
     this.evaluationTime = this.setEvaluationTime();
     this.targetIcon = '⏰';
+    this.partnerIcon = '\u{1F6CF}';
     this.disSimilars = ['\u{1F955}', '🐶', '🔑', '💰', '📺'];
     this.visuallySimilars = ['\u{1F9ED}', '🚫', '⭕', '💿', '🎯'];
     this.semanticallySimilars = ['⏳', '⌚', '⏱', '⏲', '🕰'];
@@ -26,27 +27,22 @@ export default class BlockOne {
     this.resultsHTML = '';
     this.iconCount = {
       total: 40,
-      target: 8,
-      disSimilar: 16,
-      visuallySimilar: 8,
-      semanticallySimilar: 8
+      target: 12,
+      partnerIcon: 8,
+      disSimilar: 12,
+      visuallySimilar: 4,
+      semanticallySimilar: 4
     };
 
     this.init();
   }
 
   init() {
-    this.chooseIcons();
-    this.shuffleGrid(this.grid);
-    this.prepareGridHTML();
+    // this.chooseIcons();
+    // this.shuffleGrid(this.grid);
+    // this.prepareGridHTML();
 
-    this.currentPage++;
-  }
-
-  setEvaluationDate() {
-    let now = new Date();
-    
-    return now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0') + '-' + now.getDate().toString().padStart(2, '0');
+    // this.currentPage++;
   }
 
   setEvaluationTime() {
@@ -260,20 +256,6 @@ export default class BlockOne {
     }
 
     return timePerArray;
-  }
-
-  getParticipantID() {
-    let participantID = document.location.href.split('?')[1];
-
-    if (participantID === undefined) {
-      participantID = this.generateParticipantID();
-    }
-
-    return participantID;
-  }
-
-  generateParticipantID() {
-    return `smart-${Math.random().toString(36).substr(2, 5)}`;
   }
 
   getSelectedIcons() {

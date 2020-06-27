@@ -4,7 +4,7 @@
 
 body {
   background-color: $bg-color;
-  font-size: $font-size;
+  font-size: $font-size-default;
   text-align: center;
 }
 
@@ -90,6 +90,69 @@ body {
       }
     }
   }
+}
+
+.result-phase {
+  margin-top: 2rem;
+
+  .jumbotron {
+    @include jumbotron;
+
+    .lead {
+      margin: .5rem 0 1rem;
+    }
+
+    .progress-bar-container {
+      margin: 2rem 0 0;
+
+      .progress {
+        border: .0625rem dashed $progress-bar-border;
+        box-shadow: .0625rem .0625rem .0625rem .0625rem $progress-bar-shadow, -.0625rem -.0625rem .0625rem .0625rem $progress-bar-shadow;
+        font-size: 1rem;
+        font-weight: bold;
+        height: 2.5rem;
+        margin: auto;
+        width: 28.125rem;
+
+        .progress-bar {
+          border-radius: .3125rem;
+          padding: 0 .625rem 0 0;
+          text-align: right;
+          width: 12.5%;
+        }
+      }
+
+      .progress-bar-label {
+        display: flex;
+        justify-content: space-between;
+        margin: auto;
+        width: 28.125rem;
+
+        span {
+          font-size: 1rem;
+          font-weight: 300;
+        }
+      }
+    }
+
+    .table {
+      thead {
+        th {
+          font-size: 1.5rem;
+          font-weight: normal;
+        }
+      }
+    }
+
+    .btn-block-two {
+      margin-top: 2rem;
+    }
+  }
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: .0625rem solid $table-border;
 }
 
 .test-phase,

@@ -2,9 +2,21 @@ import * as domElements from './domElements';
 import * as globalFunctions from './functions';
 import BlockOne from './BlockOne';
 import BlockOneExample from './BlockOneExample';
+import BlockTwo from './BlockTwo';
+import BlockTwoExample from './BlockTwoExample';
 
-export const blockOne = new BlockOne();
-export const blockOneExample = new BlockOneExample();
+const blockOne = new BlockOne();
+const blockOneExample = new BlockOneExample();
+
+
+const blockTwo = new BlockTwo(blockOne.participantID, blockOne.evaluationDate);
+const blockTwoExample = new BlockTwoExample();
+
+console.log('Block Two: ', blockTwo);
+console.log('Block Two Example: ', blockTwoExample);
+
+
+let currentBlock = 1;
 
 /* -------------------- EVENT LISTENERS -------------------- */
 
@@ -47,7 +59,7 @@ domElements.btnExampleDone.addEventListener('click', () => {
 
   domElements.introHeader.innerText = "Great Work!";
   domElements.introInstructions.innerHTML = `
-    Now you will be given a differnt target icon at the top of the screen. Your tast is to click on all the target icons in the grid.
+    Now you will be given a different target icon at the top of the screen. Your task is to click on all the target icons in the grid.
     <br /><br />
     Once you find all the icons on one page, go onto the next page. The exercise will end after 3 minutes.
     <br /><br />
@@ -65,7 +77,9 @@ domElements.btnExampleDone.addEventListener('click', () => {
     - creates a new grid for the next page
 */
 domElements.btnNextPage.addEventListener('click', () => {
-  blockOne.endEvaluation();
+  blockOne.evaluatePage();
+  blockOne.savePage();
+
   blockOne.init();
   blockOne.beginEvaluation();
 
@@ -92,30 +106,67 @@ const setIconsOnClickHandlers = () => {
   }
 };
 
+/*
+  Continue Button on Block One Results Page
+
+  Clicking on this button sends the user to Block Two's phase
+*/
+domElements.btnBlockTwo.addEventListener('click', () => {
+  currentBlock++;
+
+  goToIntroPhase();
+
+  domElements.introHeader.innerText = "Needle in a Haystack";
+  domElements.introInstructions.innerHTML = `
+    In this exercise, you will be given a target icon at the top of the screen.
+    <br />
+    This time, you should only click it if it appears after another specified icon.
+    <br /><br />
+    Your task is to click on all the target icons in the grid.
+  `;
+});
+
 /* --------------------------------------------------------- */
 
 const goToIntroPhase = () => {
   globalFunctions.hideDiv(domElements.testPhase);
+  globalFunctions.hideDiv(domElements.resultPhase);
+
   globalFunctions.showDiv(domElements.introPhase);
 };
 
 const goToTestPhase = () => {
   globalFunctions.hideDiv(domElements.introPhase);
+  globalFunctions.hideDiv(domElements.resultPhase);
+  
   globalFunctions.showDiv(domElements.testPhase);
 };
 
 const goToResultsPhase = () => {
+  globalFunctions.hideDiv(domElements.introPhase);
   globalFunctions.hideDiv(domElements.testPhase);
+  
   globalFunctions.showDiv(domElements.resultPhase);
+  
+  if (currentBlock === 1) {
+    domElements.resultsJumbotron.innerHTML = blockOne.resultsHTML;
+  }
 };
 
 const setTimer = () => {
   setTimeout(() => {
     alert('Time\'s Up!');
 
+    blockOne.evaluatePage();
+    blockOne.savePage();
+
     blockOne.endEvaluation();
+    blockOne.saveBlock();
+
+    blockOne.prepareResultsHTML();
     goToResultsPhase();
 
+    window.blockOne = blockOne;
     console.log(blockOne);
-  }, 3000);
+  }, 30000);
 };
