@@ -4,6 +4,6 @@ export const hideDiv = element => {
 };
 
 export const showDiv = element => {
-  element.style.setProperty('display', 'block');
+  element.style.setProperty('display', 'inline-block');
   element.style.setProperty('visibility', 'visible');
 };

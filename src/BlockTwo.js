@@ -38,11 +38,11 @@ export default class BlockTwo {
   }
 
   init() {
-    // this.chooseIcons();
-    // this.shuffleGrid(this.grid);
-    // this.prepareGridHTML();
+    this.chooseIcons();
+    this.shuffleGrid();
+    this.prepareGridHTML();
 
-    // this.currentPage++;
+    this.currentPage++;
   }
 
   setEvaluationTime() {
@@ -71,13 +71,65 @@ export default class BlockTwo {
     }
   }
 
-  shuffleGrid(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
+  shuffleGrid() {
+    let reshuffle = true;
 
-    return arr;
+    do {
+      // First, shuffle the grid, which does not currently include the 8 partner icons
+      for (let i = this.grid.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this.grid[i], this.grid[j]] = [this.grid[j], this.grid[i]];
+      }
+  
+      // Find 8 random target icons to place a partner icon next to
+      for (let i = 0; i < this.iconCount.partnerIcon; i++) {
+        let randomIcon = '';
+        let randomIndex = 0;
+        let reselectRandom = true;
+  
+        /*
+          We need to place a partner icon to the left of a target icon.
+          This means that this random icon cannot be the first icon in the grid.
+          
+          This also means that this random icon cannot be the first in any row,
+          since the placed partner icon would appear as the last icon in the previous row.
+        */
+  
+        do {
+          // Pick random non-first index
+          randomIndex = Math.floor(Math.random() * (this.grid.length - 1)) + 1;
+  
+          // Grab icon in grid at random index
+          randomIcon = this.grid[randomIndex];
+  
+          // Verify the random icon is one of our 12 target icons
+          if (randomIcon === this.targetIcon) {
+            // Verify ihat there isn't already a partner icon placed to the left of this randomly selected target icon
+            if (this.grid[randomIndex - 1] !== this.partnerIcon) {              
+              // We are green lit to place a partner icon to the left of this randomly selected target icon
+              this.grid.splice(randomIndex, 0, this.partnerIcon);
+  
+              reselectRandom = false;
+            } else {
+              reselectRandom = true;
+            }
+          } else {
+            reselectRandom = true;
+          }
+        } while (reselectRandom);
+      }
+  
+      // Verify that no partner icons are the last icon in their row (causing the target icon to be on the next row)
+      if (this.grid[7] === this.partnerIcon || (this.grid[15] === this.partnerIcon) || (this.grid[23] === this.partnerIcon) || (this.grid[31] === this.partnerIcon)) {
+        // Reset the grid
+        this.chooseIcons();
+  
+        reshuffle = true;
+      } else {
+        // YAY ... the grid is done and complete! No need for reshuffling!
+        reshuffle = false;
+      }
+    } while (reshuffle);
   }
 
   prepareGridHTML() {
@@ -103,11 +155,13 @@ export default class BlockTwo {
 
   beginEvaluation() {
     const targetIcon = document.querySelector('.target-icon');
+    const partnerIcon = document.querySelector('.test-phase .partner-icon');
     const iconsTable = document.querySelector('.icons-table');
     const btnExampleDone = document.querySelector('.btn-example-done');
     const btnNext = document.querySelector('.btn-next');
 
     targetIcon.innerHTML = this.targetIcon;
+    partnerIcon.innerHTML = this.partnerIcon;
     iconsTable.innerHTML = this.gridHTML;
 
     btnExampleDone.style.setProperty('display', 'none');

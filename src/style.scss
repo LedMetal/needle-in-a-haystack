@@ -44,8 +44,18 @@ body {
   .jumbotron {
     @include jumbotron;
 
-    .target-icon {
-      font-size: 1.875rem;
+    .test-phase-header {
+      .main-header,
+      .target-icon,
+      .additional-header,
+      .partner-icon {
+        display: inline-block;
+      }
+
+      .target-icon,
+      .partner-icon {
+        font-size: 1.875rem;
+      }
     }
 
     .icons-table {
