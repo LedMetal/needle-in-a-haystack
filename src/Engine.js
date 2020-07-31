@@ -8,13 +8,8 @@ import BlockTwoExample from './BlockTwoExample';
 const blockOne = new BlockOne();
 const blockOneExample = new BlockOneExample();
 
-
 const blockTwo = new BlockTwo(blockOne.participantID, blockOne.evaluationDate);
 const blockTwoExample = new BlockTwoExample();
-
-console.log('Block Two: ', blockTwo);
-console.log('Block Two Example: ', blockTwoExample);
-
 
 let currentBlock = 1;
 
@@ -28,7 +23,24 @@ let currentBlock = 1;
 domElements.btnExample.addEventListener('click', () => {
   goToTestPhase();
 
-  blockOneExample.beginExample();
+  if (currentBlock === 1) {
+    // Hide the additional header info on test page
+    globalFunctions.hideDiv(domElements.additionalHeader);
+    globalFunctions.hideDiv(domElements.partnerIcon);
+
+    blockOneExample.beginExample();
+  } else if (currentBlock === 2) {
+    // Display the additional header info on test page
+    globalFunctions.showDiv(domElements.additionalHeader);
+    globalFunctions.showDiv(domElements.partnerIcon);
+
+    // Display the example-done button and hide the next page button
+    globalFunctions.showDiv(domElements.btnExampleDone);
+    globalFunctions.hideDiv(domElements.btnNextPage);
+
+    blockTwoExample.beginExample();
+  }
+
   setIconsOnClickHandlers();
 });
 
@@ -40,7 +52,11 @@ domElements.btnExample.addEventListener('click', () => {
 domElements.btnStart.addEventListener('click', () => {
   goToTestPhase();
 
-  blockOne.beginEvaluation();
+  if (currentBlock === 1) {
+    blockOne.beginEvaluation();
+  } else if (currentBlock === 2) {
+    blockTwo.beginEvaluation();
+  }
 
   setTimer();
   setIconsOnClickHandlers();
@@ -58,15 +74,28 @@ domElements.btnExampleDone.addEventListener('click', () => {
   globalFunctions.showDiv(domElements.btnStart);
 
   domElements.introHeader.innerText = "Great Work!";
-  domElements.introInstructions.innerHTML = `
-    Now you will be given a different target icon at the top of the screen. Your task is to click on all the target icons in the grid.
-    <br /><br />
-    Once you find all the icons on one page, go onto the next page. The exercise will end after 3 minutes.
-    <br /><br />
-    If you accidentally choose the wrong icon, you can click on it again to de-select it.
-    <br /><br />
-    Try to pay attention to how you're approaching the task.
-  `;
+
+  if (currentBlock === 1) {
+    domElements.introInstructions.innerHTML = `
+      Now, you will be given a different target icon at the top of the screen. Your task is to click on all the target icons in the grid.
+      <br /><br />
+      Once you find all the icons on one page, go onto the next page. The exercise will end after 3 minutes.
+      <br /><br />
+      If you accidentally choose the wrong icon, you can click on it again to de-select it.
+      <br /><br />
+      Try to pay attention to how you're approaching the task.
+    `;
+  } else if (currentBlock === 2) {
+    domElements.introInstructions.innerHTML = `
+      Now, you will be given a different set of icons at the top of the screen. Your task is to click on all the target icons in the grid according to the rule.
+      <br /><br />
+      Once you finish one page, go onto the next page. The exercise will end after 3 minutes.
+      <br /><br />
+      If you accidentally choose the wrong icon, you can click on it again to de-select it.
+      <br /><br />
+      Try to pay attention to how you're approaching the task.
+    `;
+  }
 });
 
 /*
@@ -124,6 +153,9 @@ domElements.btnBlockTwo.addEventListener('click', () => {
     <br /><br />
     Your task is to click on all the target icons in the grid.
   `;
+  
+  globalFunctions.showDiv(domElements.btnExample);
+  globalFunctions.hideDiv(domElements.btnStart);
 });
 
 /* --------------------------------------------------------- */
@@ -157,16 +189,18 @@ const setTimer = () => {
   setTimeout(() => {
     alert('Time\'s Up!');
 
-    blockOne.evaluatePage();
-    blockOne.savePage();
-
-    blockOne.endEvaluation();
-    blockOne.saveBlock();
-
-    blockOne.prepareResultsHTML();
+    if (currentBlock === 1) {
+      blockOne.evaluatePage();
+      blockOne.savePage();
+  
+      blockOne.endEvaluation();
+      blockOne.saveBlock();
+  
+      blockOne.prepareResultsHTML();
+    } else if (currentBlock === 2) {
+      
+    }
+    
     goToResultsPhase();
-
-    window.blockOne = blockOne;
-    console.log(blockOne);
-  }, 30000);
+  }, 10000);
 };
