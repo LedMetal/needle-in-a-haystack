@@ -1,10 +1,14 @@
 <?php
+  echo "connecting...";
+
   // Create connection
   $conn = connectToDB();
 
   // Check connection
   if ($conn -> connect_error) {
     die("Connection failed: " . $conn -> connect_error);
+  } else {
+    echo "connected!";
   }
 
   // POST variables
@@ -37,10 +41,10 @@
 
   function connectToDB() {
     // Connection Variables
-    $servername = "gator3069.hostgator.com";
-    $username = "abdulsad_abdulsa";
-    $password = "abdulsad_abdulsa";
-    $dbname = "abdulsad_needle_in_a_haystack";
+    $servername = "localhost";
+    $username = "needlack_admin";
+    $password = "Orange123!@#";
+    $dbname = "needlack_stats";
 
     // Create Connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);

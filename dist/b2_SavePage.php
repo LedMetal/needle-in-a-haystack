@@ -1,10 +1,14 @@
 <?php
+  echo "connecting...";
+
   // Create connection
   $conn = connectToDB();
 
   // Check connection
   if ($conn -> connect_error) {
     die("Connection failed: " . $conn -> connect_error);
+  } else {
+    echo "connected!";
   }
 
   // POST variables
@@ -13,12 +17,13 @@
   $duration = $_POST["duration"];
   $total = $_POST["totalSelected"];
   $targets = $_POST["targetsSelected"];
+  $unparteneredTargetsSelected = $_POST["unparteneredTargetsSelected"];
   $dissimilar = $_POST["dissimilarsSelected"];
   $visuallySimilar = $_POST["visuallySimilarsSelected"];
   $semanticallySimilar = $_POST["semanticallySimilarsSelected"];
 
   // SQL query
-  $query = "INSERT INTO block_one_pages (participant_id, page, duration_seconds, total, targets, dissimilar, visually_similar, semantically_similar) VALUES ('$participantID', $page, $duration, $total, $targets, $dissimilar, $visuallySimilar, $semanticallySimilar)";
+  $query = "INSERT INTO block_two_pages (participant_id, page, duration_seconds, total, partnered_targets, unpartnered_targets, dissimilar, visually_similar, semantically_similar) VALUES ('$participantID', $page, $duration, $total, $targets, $unparteneredTargetsSelected, $dissimilar, $visuallySimilar, $semanticallySimilar)";
 
   $result = $conn->query($query);
   if ($result == TRUE) {
@@ -34,10 +39,10 @@
 
   function connectToDB() {
     // Connection Variables
-    $servername = "gator3069.hostgator.com";
-    $username = "abdulsad_abdulsa";
-    $password = "abdulsad_abdulsa";
-    $dbname = "abdulsad_needle_in_a_haystack";
+    $servername = "localhost";
+    $username = "needlack_admin";
+    $password = "Orange123!@#";
+    $dbname = "needlack_stats";
 
     // Create Connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);

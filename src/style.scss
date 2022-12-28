@@ -8,6 +8,21 @@ body {
   text-align: center;
 }
 
+.header-logos {
+  align-items: center;
+  background-color: $header-logos-background;
+  border: 1px solid $header-logos-border;
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  margin: 32px auto 0;
+  width: 45rem;
+
+  .logo {
+    width: 150px;
+  }
+}
+
 .intro-phase {
   margin-top: 2rem;
 

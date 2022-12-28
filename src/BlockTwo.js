@@ -142,7 +142,7 @@ export default class BlockTwo {
 
       for (let col = 1; col <= 8; col++, gridIndex++) {
         rowHTML += `
-          <td class='icons' id='${row}-${col}'>${this.grid[gridIndex]}</td>
+          <td class='icons ${gridIndex != 0 && this.grid[gridIndex - 1] === this.partnerIcon ? 'partnered' : ''}' id='${row}-${col}'>${this.grid[gridIndex]}</td>
         `;
       }
 
@@ -152,6 +152,8 @@ export default class BlockTwo {
 
     this.gridHTML += '</tbody>';
   }
+
+  // ${this.grid[gridIndex] === this.partnerIcon ? 'partner' : ''}
 
   beginEvaluation() {
     const targetIcon = document.querySelector('.target-icon');
@@ -165,7 +167,9 @@ export default class BlockTwo {
     iconsTable.innerHTML = this.gridHTML;
 
     btnExampleDone.style.setProperty('display', 'none');
+    btnExampleDone.style.setProperty('visibility', 'hidden');
     btnNext.style.setProperty('display', 'inline-block');
+    btnNext.style.setProperty('visibility', 'visible');
 
     this.score[`page${this.currentPage}`] = {
       timestamps: {
@@ -189,35 +193,56 @@ export default class BlockTwo {
 
     // Categorize the selected icons (increment appropriate icon types)
     this.score[`page${this.currentPage}`].targetsSelected = 0;
+    this.score[`page${this.currentPage}`].pairedTargetsSelected = 0;
+    this.score[`page${this.currentPage}`].unparteneredTargetsSelected = 0;
     this.score[`page${this.currentPage}`].dissimilarsSelected = 0;
     this.score[`page${this.currentPage}`].visuallySimilarsSelected = 0;
     this.score[`page${this.currentPage}`].semanticallySimilarsSelected = 0;
     this.categorizeSelectedIcons();
   }
 
+  getSelectedIcons() {
+    const selectedElements = document.getElementsByClassName('selected');
+
+    let selectedIcons = [];
+
+    for (let i = 0; i < selectedElements.length; i++) {
+      selectedIcons.push({ icon: selectedElements[i].innerHTML, partnered: selectedElements[i].classList.contains('partnered') });
+    }
+
+    return selectedIcons;
+  }
+
   categorizeSelectedIcons() {
     let selectedIcons = this.score[`page${this.currentPage}`].selectedIcons;
 
     for (let i = 0; i < selectedIcons.length; i++) {
-      if (selectedIcons[i] === this.targetIcon) {
+      if (selectedIcons[i].icon === this.targetIcon) {
         this.score[`page${this.currentPage}`].targetsSelected++;
-      } else if (this.disSimilars.indexOf(selectedIcons[i]) >= 0) {
+
+        if (selectedIcons[i].partnered) {
+          this.score[`page${this.currentPage}`].pairedTargetsSelected++;
+        } else {
+          this.score[`page${this.currentPage}`].unparteneredTargetsSelected++;
+        }
+      } else if (this.disSimilars.indexOf(selectedIcons[i].icon) >= 0) {
         this.score[`page${this.currentPage}`].dissimilarsSelected++;
-      } else if (this.visuallySimilars.indexOf(selectedIcons[i]) >= 0) {
+      } else if (this.visuallySimilars.indexOf(selectedIcons[i].icon) >= 0) {
         this.score[`page${this.currentPage}`].visuallySimilarsSelected++;
-      } else if (this.semanticallySimilars.indexOf(selectedIcons[i]) >= 0) {
+      } else if (this.semanticallySimilars.indexOf(selectedIcons[i].icon) >= 0) {
         this.score[`page${this.currentPage}`].semanticallySimilarsSelected++;
       }
     }
   }
 
   savePage() {
-    $.post('./savePage.php', {
+    $.post('./b2_SavePage.php', {
       participantID: this.participantID,
       page: this.currentPage,
       duration: this.score[`page${this.currentPage}`].timeOnPage,
       totalSelected: this.score[`page${this.currentPage}`].totalSelected,
-      targetsSelected: this.score[`page${this.currentPage}`].targetsSelected,
+      targetsSelected: this.score[`page${this.currentPage}`].pairedTargetsSelected,
+      unparteneredTargetsSelected: this.score[`page${this.currentPage}`].unparteneredTargetsSelected,
       dissimilarsSelected: this.score[`page${this.currentPage}`].dissimilarsSelected,
       visuallySimilarsSelected: this.score[`page${this.currentPage}`].visuallySimilarsSelected,
       semanticallySimilarsSelected: this.score[`page${this.currentPage}`].semanticallySimilarsSelected
@@ -244,6 +269,9 @@ export default class BlockTwo {
 
     // Set total number of correct selections (target icons)
     this.score.totalTargetsSelected = this.getTotalTargetsSelected();
+
+    // Set total number of un-partnered targets selected
+    this.score.totalUnpartneredTargetsSelected = this.getTotalUnpartneredTargetsSelected();
 
     // Set ratio of correctly selected target icons to total target icons
     this.score.targetsSelectedRatio = this.getTargetsSelectedRatio();
@@ -272,13 +300,30 @@ export default class BlockTwo {
       let page = this.score[`page${i + 1}`];
 
       for (let j = 0; j < page.selectedIcons.length; j++) {
-        correctSelections += page.selectedIcons[j] === this.targetIcon ? 1 : 0;
+        correctSelections += page.selectedIcons[j].icon === this.targetIcon && page.selectedIcons[j].partnered ? 1 : 0;
       }
 
       totalTargetsSelected += correctSelections;
     }
 
     return totalTargetsSelected;
+  }
+
+  getTotalUnpartneredTargetsSelected() {
+    let totalUnpartneredTargetsSelected = 0;
+
+    for (let i = 0; i < this.score.totalPages; i++){
+      let unpartneredSelection = 0;
+      let page = this.score[`page${i + 1}`];
+
+      for (let j = 0; j < page.selectedIcons.length; j++) {
+        unpartneredSelection += page.selectedIcons[j].icon === this.targetIcon && !page.selectedIcons[j].partnered ? 1 : 0;
+      }
+
+      totalUnpartneredTargetsSelected += unpartneredSelection;
+    }
+
+    return totalUnpartneredTargetsSelected;
   }
 
   getTargetsSelectedRatio() {
@@ -293,7 +338,7 @@ export default class BlockTwo {
       let page = this.score[`page${i + 1}`];
 
       for (let j = 0; j < page.selectedIcons.length; j++) {
-        incorrectSelections += page.selectedIcons[j] !== this.targetIcon ? 1 : 0;
+        incorrectSelections += page.selectedIcons[j].icon !== this.targetIcon ? 1 : 0;
       }
 
       totalNonTargetsSelected += incorrectSelections;
@@ -312,20 +357,8 @@ export default class BlockTwo {
     return timePerArray;
   }
 
-  getSelectedIcons() {
-    const selectedElements = document.getElementsByClassName('selected');
-
-    let selectedIcons = [];
-
-    for (let i = 0; i < selectedElements.length; i++) {
-      selectedIcons.push(selectedElements[i].innerHTML);
-    }
-
-    return selectedIcons;
-  }
-
   saveBlock() {
-    $.post('./saveBlock.php', {
+    $.post('./b2_SaveBlock.php', {
       participantID: this.participantID,
       evaluationDate: this.evaluationDate,
       evaluationTime: this.evaluationTime,
@@ -335,6 +368,7 @@ export default class BlockTwo {
       averageTimePerPage: this.score.averageTimePerPage,
       totalTargetsViewed: this.score.totalTargetsViewed,
       totalTargetsSelected: this.score.totalTargetsSelected,
+      totalUnpartneredTargetsSelected: this.score.totalUnpartneredTargetsSelected,
       targetsSelectedRatio: this.score.targetsSelectedRatio,
       totalNonTargetsSelected: this.score.totalNonTargetsSelected
     }, data => {
@@ -383,6 +417,18 @@ export default class BlockTwo {
           </tr>
         </tbody>
       </table>
+
+      <br />
+      <hr />
+      <br />
+
+      <div class="thank-you-message">
+        Thank you for completing the second block of the task.
+        <br /><br />
+        You may close your browser window.
+        <br />
+        The experimenter will provide instructions for what to do next.
+      </div>
     `;
 
     this.resultsHTML = resultsHTML;

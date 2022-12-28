@@ -7,6 +7,7 @@ export const btnStart = document.querySelector('.btn-start');
 export const testPhase = document.querySelector('.test-phase');
 export const additionalHeader = document.querySelector('.test-phase .additional-header');
 export const partnerIcon = document.querySelector('.test-phase .partner-icon');
+export const preButtonMessage = document.querySelector('.pre-button-message-container');
 export const btnExampleDone = document.querySelector('.btn-example-done');
 export const btnNextPage = document.querySelector('.btn-next');
 
