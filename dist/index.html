@@ -1,88 +1,120 @@
 <!DOCTYPE html>
-<html lang='en' dir='ltr'>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<script
+			src="https://kit.fontawesome.com/9419ca50ea.js"
+			crossorigin="anonymous"
+		></script>
 
-  <script src="https://kit.fontawesome.com/9419ca50ea.js" crossorigin="anonymous"></script>
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"
+		></script>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<title>Needle In A Haystack</title>
+	</head>
 
-  <title>Target Detection</title>
-</head>
+	<body>
+		<div class="header-logos">
+			<div class="logo-queens">
+				<img
+					class="logo"
+					src="https://niah.abdulsadiq.com/images/queens_logo.png"
+				/>
+			</div>
+			<div class="logo-lab">
+				<img
+					class="logo"
+					src="https://niah.abdulsadiq.com/images/lab_logo.jpeg"
+				/>
+			</div>
+		</div>
 
-<body>
-  <div class='intro-phase'>
-    <div class="jumbotron">
-      <div class='intro-header'>
-        <h1 class="display-4">Needle in a Haystack</h1>
-      </div>
-  
-      <div class='intro-instructions lead'>
-        In this exercise, you will be given a target icon at the top of the screen. Your task is to click on all the target icons in the grid.
-      </div>
-  
-      <div class='intro-navigation'>
-        <button class='btn btn-example'>Try An Example!</button>
-        <button class='btn btn-start'>
-          <span>Start </span>
-          <i class="fas fa-hourglass-start"></i>
-        </button>
-      </div>
-    </div>
-  </div>
+		<div class="intro-phase">
+			<div class="jumbotron">
+				<div class="intro-header">
+					<h1 class="display-4">Needle in a Haystack</h1>
+				</div>
 
-  <div class='test-phase'>
-    <div class="jumbotron">
-      <div class='test-phase-header'>
-        <h4 class='main-header'>Click on all the </h4>
-  
-        <div class='target-icon'></div>
+				<div class="intro-instructions lead">
+					In this exercise, you will be given a target icon at the top of the
+					screen. Your task is to click on all the target icons in the grid.
+				</div>
 
-        <h4 class='additional-header'> that appear after </h4>
+				<div class="intro-navigation">
+					<button class="btn btn-example">Try An Example!</button>
+					<button class="btn btn-start">
+						<span>Start </span>
+						<i class="fas fa-hourglass-start"></i>
+					</button>
+				</div>
+			</div>
+		</div>
 
-        <div class='partner-icon'></div>
-      </div>
-  
-      <table class='table icons-table'></table>
-  
-      <div class="row number-clicked">
-        <div class="col">
-          Total number of clicked: <span class="numberClicked">0</span>
-        </div>
-      </div>
-  
-      <div class="row test-navigation">
-        <div class="col">
-          <button class="btn btn-example-done">
-            <span>Done Example </span>
-            <i class="fas fa-check"></i>
-          </button>
-          <button class="btn btn-next">
-            <span>Next Page </span>
-            <i class="fas fa-angle-right"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+		<div class="test-phase">
+			<div class="jumbotron">
+				<div class="test-phase-header">
+					<h4 class="main-header">Click on all the</h4>
 
-  <div class='result-phase'>
-    <div class="jumbotron">
-      <div class="results">
-        <!-- Injected HTML from BlockOne -->
-      </div>
-    
-      <button class='btn btn-block-two'>
-        <span>Continue</span>
-        <i class="fas fa-caret-right"></i>
-      </button>
-    </div>
-  </div>
+					<div class="target-icon"></div>
 
+					<h4 class="additional-header">that appear after</h4>
 
-  <script type="text/javascript" src="main.js"></script>
-</body>
+					<div class="partner-icon"></div>
+				</div>
 
+				<table class="table icons-table"></table>
+
+				<div class="row number-clicked">
+					<div class="col">
+						Total number of clicked: <span class="numberClicked">0</span>
+					</div>
+				</div>
+
+				<div class="pre-button-message-container">
+					<hr />
+
+					<div class="row pre-button-message">
+						<div class="col">
+							Stop, the experimenter will let you know when to press Continue.
+						</div>
+					</div>
+
+					<hr />
+				</div>
+
+				<div class="row test-navigation">
+					<div class="col">
+						<button class="btn btn-example-done">
+							<span>Continue </span>
+							<i class="fas fa-check"></i>
+						</button>
+						<button class="btn btn-next">
+							<span>Next Page </span>
+							<i class="fas fa-angle-right"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="result-phase">
+			<div class="jumbotron">
+				<div class="results">
+					<!-- Injected HTML from BlockOne -->
+				</div>
+
+				<button class="btn btn-block-two">
+					<span>Continue</span>
+					<i class="fas fa-caret-right"></i>
+				</button>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="main.js"></script>
+	</body>
 </html>

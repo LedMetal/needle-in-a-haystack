@@ -33,6 +33,9 @@ export default class BlockOne {
     };
 
     this.init();
+
+    /* ----- DEBUG ----- */
+    console.log('participantID: ', this.participantID);
   }
 
   init() {
@@ -162,7 +165,7 @@ export default class BlockOne {
   }
 
   savePage() {
-    $.post('./savePage.php', {
+    $.post('./b1_SavePage.php', {
       participantID: this.participantID,
       page: this.currentPage,
       duration: this.score[`page${this.currentPage}`].timeOnPage,
@@ -263,10 +266,15 @@ export default class BlockOne {
   }
 
   getParticipantID() {
-    let participantID = document.location.href.split('?')[1];
+    let appendedVariable = document.location.href.split('?')[1];
+    let participantID = '';
 
-    if (participantID === undefined) {
+    if (appendedVariable === undefined) {
       participantID = this.generateParticipantID();
+    } else {
+      if (appendedVariable.split('=')[0] === "id") {
+        participantID = appendedVariable.split('=')[1];
+      }
     }
 
     return participantID;
@@ -289,7 +297,7 @@ export default class BlockOne {
   }
 
   saveBlock() {
-    $.post('./saveBlock.php', {
+    $.post('./b1_SaveBlock.php', {
       participantID: this.participantID,
       evaluationDate: this.evaluationDate,
       evaluationTime: this.evaluationTime,
@@ -347,6 +355,19 @@ export default class BlockOne {
           </tr>
         </tbody>
       </table>
+
+      <br />
+      <hr />
+      <br />
+
+      <div class="thank-you-message">
+        Thank you for completing the first block of this task.
+        <br />
+        <br />
+        Please minimize your browser window, but <strong>DO NOT</strong> close it.
+        <br />
+        You will be returning to this task in a few minutes.
+      </div>
     `;
 
     this.resultsHTML = resultsHTML;
